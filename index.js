@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { randomUUID } = require('crypto');
+const { randomBytes } = require('crypto');
 const readFIle = require('./helpers/readFile');
 const loginMiddleware = require('./middlewares/loginMiddleware');
 
@@ -37,9 +37,11 @@ app.get('/talker/:id', async (req, res) => {
 });
 
 app.post('/login', loginMiddleware, (_req, res) => {
-  const token = randomUUID().split('-').join('').substring(0, 16);
+  const token = randomBytes(8).toString('hex');
   res.status(200).json({ token });
 });
+
+app.post('/talker')
 
 app.listen(PORT, () => {
   console.log('Online');
