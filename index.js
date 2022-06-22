@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { randomUUID } = require('crypto');
 const readFIle = require('./helpers/readFile');
 
 const app = express();
@@ -32,6 +33,11 @@ app.get('/talker/:id', async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error });
   }
+});
+
+app.post('/login', (_req, res) => {
+  const token = randomUUID().split('-').join('').substring(0, 16);
+  res.status(200).json({ token });
 });
 
 app.listen(PORT, () => {
