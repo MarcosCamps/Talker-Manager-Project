@@ -41,8 +41,6 @@ app.post('/login', loginMiddleware, (_req, res) => {
   res.status(200).json({ token });
 });
 
-app.post('/talker')
-
 app.listen(PORT, () => {
   console.log('Online');
 });
