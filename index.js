@@ -18,9 +18,9 @@ app.get('/talker', async (_req, res) => {
     const talker = await readFIle();
     res.status(200).json(talker);
   } catch (error) {
-   res.status(400).json({message: error})
+   res.status(400).json({ message: error });
   }
-})
+});
 
 app.listen(PORT, () => {
   console.log('Online');
