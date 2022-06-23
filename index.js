@@ -68,7 +68,7 @@ app.post('/talker',
     }
   });
 
-  app.put('/talker/:id',
+app.put('/talker/:id',
   authorizationMiddleware,
   nameMiddleware,
   ageMiddleware,
@@ -89,6 +89,18 @@ app.post('/talker',
       res.status(400).json({ message: error });
     }
   });
+
+app.delete('/talker/:id', authorizationMiddleware, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const talker = await readFIle();
+    const talkerId = talker.filter((person) => person.id !== +id);
+    writeFIle(talkerId);
+    return res.status(204).end('');
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
 
 app.listen(PORT, () => {
   console.log('Online');
