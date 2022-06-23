@@ -61,9 +61,30 @@ app.post('/talker',
       const talker = await readFIle();
       const talkerPerson = { id: talker.length + 1, name, age, talk };
       talker.push(talkerPerson);
-      // talker.find((person) => person.length - 1);
       writeFIle(talker);
       res.status(201).json(talkerPerson);
+    } catch (error) {
+      res.status(400).json({ message: error });
+    }
+  });
+
+  app.put('/talker/:id',
+  authorizationMiddleware,
+  nameMiddleware,
+  ageMiddleware,
+  talkerMiddleware,
+  watchedAtMiddleware,
+  rateMiddleware,
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      const talkers = await readFIle();
+      const newTalkers = talkers.map((talker) => {
+        if (talker.id === +id) return { id: +id, ...req.body };
+        return talker;
+      });
+      writeFIle(newTalkers);
+      res.status(200).json({ id: +id, ...req.body });
     } catch (error) {
       res.status(400).json({ message: error });
     }
